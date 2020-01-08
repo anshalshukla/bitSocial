@@ -39,6 +39,5 @@
 {% else %}
 <b>
     <h2>Winter Assignment!!</h2>
-</b>
-{% endif %}
-{% endblock content %}
+    <a href="{% url 'social:begin' 'google-oauth2' %}">Login With Google</a>
+</b> {% endif %} {% endblock content %}

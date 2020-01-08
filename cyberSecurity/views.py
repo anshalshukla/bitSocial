@@ -28,7 +28,7 @@ def report_offence(request, **kwargs):
         for post in k:
             p = p + post.reported_by.count()
 
-        if p > 2 and not post.author.is_staff:
+        if p > 5 and not post.author.is_staff:
             post.author.delete()
 
         return redirect("blog-home")
