@@ -77,10 +77,11 @@ def profile(request):
 
 @login_required
 def notify(request):
-    if request.method == "POST":
-        if request.user.profile.follow:
-            request.user.profile.follow = False
-        else:
-            request.user.profile.follow = True
+    if request.user.profile.notify == True:
+        request.user.profile.notify = False
+        request.user.profile.save()
+    else:
+        request.user.profile.notify = True
+        request.user.profile.save()
 
     return redirect("profile")

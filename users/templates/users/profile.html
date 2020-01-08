@@ -9,10 +9,15 @@
             <p class="text-secondary ml-3">{{user.email}}</p>
         </div>
     </div>
-    <form method="POST">
-        {% csrf_token %}
-        <a class="btn btn-outline-secondary" href="{% url 'profile' %}">Mail me whenever any of my follower posts</a>
-    </form>
+    <a class="btn btn-outline-secondary" href="{% url 'notify' %}">Mail me whenever any of my following posts</a>
+
+    <div>
+        {% if user.profile.notify %}
+        <p>You will be notified when any of your following writes a post.</p>
+        {% else %}
+        <p>You will not be notified when any of your following writes a post.</p>
+        {% endif %}
+    </div>
     <div class="content-section">
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
