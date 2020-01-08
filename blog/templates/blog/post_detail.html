@@ -30,7 +30,7 @@
 </article>
 <h2>Comment Section</h2>
 {% for comment in comments %}
-{% if comment.post == post %}
+
 <div class="media-body">
     <img width=10% src="{{comment.author.profile.image.url}}">
 </div>
@@ -43,7 +43,6 @@
     </div>
 </article>
 
-{% endif %}
 {% endfor %}
 {% endfor %}
 <div class="content-section">

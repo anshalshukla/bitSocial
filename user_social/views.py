@@ -5,9 +5,9 @@ from django.contrib import messages
 
 
 def follow_user(request, **kwargs):
-    logged_in = User.objects.filter(username=request.user.username).first()
+    logged_in = User.objects.get(username=request.user.username)
     following_qs = logged_in.geek.follow.all()
-    follow_to = User.objects.filter(id=kwargs["pk"]).first()
+    follow_to = User.objects.get(id=kwargs["pk"])
 
     if follow_to not in following_qs:
         logged_in.geek.follow.add(follow_to)

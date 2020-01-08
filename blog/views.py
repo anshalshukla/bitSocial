@@ -20,7 +20,7 @@ def post_detail(request, **kwargs):
     feed = Post.objects.filter(id=int(kwargs["pk"]))
     context = {
         "posts": feed,
-        "comments": Comment.objects.all(),
+        "comments": Comment.objects.filter(post=feed.first()),
         "form": form,
     }
     if request.method == "POST":
@@ -67,7 +67,7 @@ def post_create(request):
 
 @login_required
 def post_update(request, **kwargs):
-    post = Post.objects.filter(id=int(kwargs["pk"])).first()
+    post = Post.objects.get(id=int(kwargs["pk"]))
     if request.user == post.author:
         if request.method == "POST":
             previous_title = post.title
@@ -119,7 +119,7 @@ def post_delete(request, **kwargs):
 
 @login_required
 def user_posts(request, *args, **kwargs):
-    user = User.objects.filter(id=int(kwargs["pk"])).first()
+    user = User.objects.get(id=int(kwargs["pk"]))
     posts = Post.objects.filter(author=user)
     context = {"user": user, "posts": posts}
     return render(request, "blog/user_posts_list.html", context)
@@ -134,7 +134,7 @@ def all_users(request, **kwargs):
 
 @login_required
 def post_like(request, **kwargs):
-    post = Post.objects.filter(id=kwargs["pk"]).first()
+    post = Post.objects.get(id=kwargs["pk"])
     qs = post.liked_by.all()
     p = request.user
     if p not in qs:
@@ -145,7 +145,7 @@ def post_like(request, **kwargs):
 
 
 def personalised_feed(request, **kwargs):
-    user = User.objects.filter(id=kwargs["pk"]).first()
+    user = User.objects.get(id=kwargs["pk"])
 
     followed_by = user.geek.follow.all()
     x = []
@@ -159,7 +159,7 @@ def personalised_feed(request, **kwargs):
 
 
 def following_list(request):
-    user = User.objects.filter(id=request.user.id).first()
+    user = User.objects.get(id=request.user.id)
     followed_by = user.geek.follow.all()
     context = {"followed_by": followed_by}
     return render(request, "blog/following.html", context)
@@ -176,11 +176,12 @@ def user_report(request):
         for user in user_data:
             particulars = [user.username, user.email]
             for data in particulars:
-                ws1.cell(row=j, column=i).value = data
+                ws1.cell(row=j, column=i).value = str(data)
                 i += 1
             j += 1
 
         wb.save("Users_Report.xlsx")
+        wb.close()
         messages.success(request, f"Users Report successfully created")
 
     return redirect("blog-home")
