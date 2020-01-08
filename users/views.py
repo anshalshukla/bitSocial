@@ -65,8 +65,8 @@ def profile(request):
                     request, f"Your account has been successfully Updated!"
                 )
                 return redirect("profile")
-        except:
-            messages.warning(request, f"The username cannot be changed")
+        except Exception as e:
+            messages.warning(request, f"{e}")
             return redirect("profile")
     else:
         u_form = UserUpdateForm(instance=request.user)
