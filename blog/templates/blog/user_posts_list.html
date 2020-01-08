@@ -8,10 +8,17 @@
     <div class="article-metadata">
         <a class="mr-2">{{ user.username }}</a><br>
         <a class="mr-2">{{user.email}}</a><br>
+        {% if user in request.user.geek.follow.all %}
+        <form method="POST">
+            {% csrf_token %}
+            <a class="btn btn-outline-secondary" href="{% url 'follow-user' user.id %}">Unfollow</a>
+        </form>
+        {% else %}
         <form method="POST">
             {% csrf_token %}
             <a class="btn btn-outline-secondary" href="{% url 'follow-user' user.id %}">Follow</a>
         </form>
+        {% endif %}
     </div>
 </article>
 <hr>
