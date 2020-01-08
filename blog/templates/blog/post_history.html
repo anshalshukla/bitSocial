@@ -1,0 +1,18 @@
+{% extends "blog/base.html"%}
+{% block content %}
+{% for post in posts%}
+<article class=" media content-section">
+    <img width=10% src="{{post.author.profile.image.url}}">
+    <div class="media-body">
+
+        <div class="article-metadata">
+            <small class="text-muted">Date Posted - {{ post.date_posted |date:"F d, Y"}}</small>
+            <br>
+            <h2>{{ post.title }}</h2>
+            <p class="article-content">{{ post.content }}</p>
+        </div>
+    </div>
+</article>
+
+{% endfor %}
+{% endblock %}

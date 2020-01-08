@@ -13,4 +13,5 @@ urlpatterns = [
     path("pfeed/<int:pk>", views.personalised_feed, name="p-feed"),
     path("followers/", views.following_list, name="followers"),
     path("user_report", views.user_report, name="user-report"),
+    path("post_history/<int:pk>", views.post_history, name="post-history"),
 ]

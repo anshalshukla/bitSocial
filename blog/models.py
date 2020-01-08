@@ -14,6 +14,16 @@ class Post(models.Model):
         return self.title
 
 
+class Post_history(models.Model):
+    title = models.CharField(max_length=50)
+    content = models.TextField()
+    date_posted = models.DateTimeField(default=timezone.now)
+    update_of = models.ForeignKey(Post, on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+
+
 class Comment(models.Model):
     comment = models.TextField()
 

@@ -77,7 +77,7 @@ def profile(request):
 
 @login_required
 def notify(request):
-    if request.user.profile.notify == True:
+    if request.user.profile.notify:
         request.user.profile.notify = False
         request.user.profile.save()
     else:

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse
-from .models import Post, Comment
+from .models import Post, Comment, Post_history
 from django.contrib.auth.decorators import login_required
 from .forms import post_create_form, post_update_form, post_comment_form
 from django.contrib.auth.models import User
@@ -42,18 +42,22 @@ def post_create(request):
         post = Post(title=title, content=content, author=request.user)
         post.save()
 
-        subject = f"New Feed from{request.user.username}"
+        subject = f"New Feed from {request.user.username}"
         from_email = settings.DEFAULT_FROM_EMAIL
 
         for user in User.objects.exclude(username=request.user.username):
-            following_qs = user.geek.follow.all()
-
-            for request.user in following_qs:
-                to_email = [user.email]
-                contact_message = f"A new feed with title {title}"
-                send_mail(
-                    subject, contact_message, from_email, to_email, fail_silently=False
-                )
+            if user.profile.notify:
+                following_qs = user.geek.follow.all()
+                for request.user in following_qs:
+                    to_email = [user.email]
+                    contact_message = f"A new feed with title {title}"
+                    send_mail(
+                        subject,
+                        contact_message,
+                        from_email,
+                        to_email,
+                        fail_silently=False,
+                    )
 
         return redirect("blog-home")
     else:
@@ -67,6 +71,17 @@ def post_update(request, **kwargs):
     if request.user == post.author:
         if request.method == "POST":
             previous_title = post.title
+            previous_content = post.content
+            previous_date_posted = post.date_posted
+
+            ph = Post_history(
+                title=previous_title,
+                content=previous_content,
+                date_posted=previous_date_posted,
+                update_of=post,
+            )
+            ph.save()
+
             post.title = request.POST["title"]
             post.content = request.POST["content"]
             post.save()
@@ -157,14 +172,25 @@ def user_report(request):
         ws1 = wb.active
         ws1.title = "Users_Report"
         user_data = User.objects.all()
-        j = 0
+        i, j = 1, 1
         for user in user_data:
-            particulars = [str(user.username), str(user.email)]
-            j = j + 1
-            for i in range(len(particulars)):
-                ws1.cell(column=i + 1, row=j).value = particulars[i]
+            particulars = [user.username, user.email]
+            for data in particulars:
+                ws1.cell(row=j, column=i).value = data
+                i += 1
+            j += 1
 
         wb.save("Users_Report.xlsx")
         messages.success(request, f"Users Report successfully created")
 
     return redirect("blog-home")
+
+
+@login_required
+def post_history(request, **kwargs):
+    post_history_of = Post.objects.get(id=kwargs["pk"])
+    posts = Post_history.objects.filter(update_of=post_history_of)
+
+    context = {"posts": posts.all()}
+    return render(request, "blog/post_history.html", context)
+
