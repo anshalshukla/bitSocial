@@ -1,0 +1,12 @@
+{% extends "blog/base.html"%}
+{% block content %}
+{% for post in posts%}
+<div class="article-metadata">
+    <small class="text-muted">Date Posted - {{ post.date_posted |date:"F d, Y"}}</small>
+    <br>
+</div>
+<h2><a class="article-title">{{ post.title }}</a></h2>
+<p class="article-content">{{ post.content }}</p>
+
+{% endfor %}
+{% endblock content %}

@@ -1,0 +1,44 @@
+{% extends "blog/base.html"%}
+{% block content %}
+{% if user.is_authenticated %}
+<a class="btn btn-outline-info mt-2 mb-1 " href="{% url 'post-create' %}">
+    <h2><b>Compose</b></h2>
+</a>
+<a class="btn btn-outline-info mt-2 mb-1 ml-5 " href="{% url 'all-users' %}">
+    <h2><b>Users</b></h2>
+</a>
+<a class="btn btn-outline-info mt-2 mb-1 ml-5 " href="{% url 'followers' %}">
+    <h2><b>Following</b></h2>
+</a>
+<a class="btn btn-outline-info mt-2 mb-1 ml-5 " href="{% url 'user-posts-list' user.id %}">
+    <h2><b>My Feed</b></h2>
+</a>
+<a class="btn btn-outline-info mt-2 mb-1 ml-5 " href="{% url 'p-feed' user.id %}">
+    <h2><b>Personalised Feed</b></h2>
+</a>
+<hr>
+{% for post in posts%}
+<article class=" media content-section">
+    <img width=10% src="{{post.author.profile.image.url}}">
+    <div class="media-body">
+
+        <div class="article-metadata">
+            <a class="mr-2" href="{% url 'user-posts-list' post.author.id %}">{{ post.author }}</a>
+            <small class="text-muted">Date Posted - {{ post.date_posted |date:"F d, Y"}}</small>
+            <br>
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            <a class="btn btn-outline-secondary" href="{% url 'post-like' post.id %}">Digg</a>
+        </form>
+        <small class="text-muted">{{post.liked_by.count}} diggs</small>
+        <h2><a class="article-title" href="{% url 'post-detail' post.pk %}">{{ post.title }}</a></h2>
+        <p class="article-content">{{ post.content }}</p>
+</article>
+{% endfor %}
+{% else %}
+<b>
+    <h2>Winter Assignment!!</h2>
+</b>
+{% endif %}
+{% endblock content %}
