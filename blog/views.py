@@ -172,9 +172,32 @@ def user_report(request):
         ws1 = wb.active
         ws1.title = "Users_Report"
         user_data = User.objects.all()
-        i, j = 1, 1
+        j = 2
+        head = [
+            "Username",
+            "User Email ID",
+            "Total no. of Posts",
+            "No. of times Reported",
+            "is_staff",
+        ]
+        i = 1
+        for data in head:
+            ws1.cell(row=1, column=i).value = str(data)
+            i += 1
         for user in user_data:
-            particulars = [user.username, user.email]
+            i = 1
+            k = Post.objects.filter(author=user)
+            p = 0
+
+            for post in k:
+                p = p + post.reported_by.count()
+            particulars = [
+                user.username,
+                user.email,
+                Post.objects.filter(author_id=user.id).count(),
+                p,
+                user.is_staff,
+            ]
             for data in particulars:
                 ws1.cell(row=j, column=i).value = str(data)
                 i += 1
