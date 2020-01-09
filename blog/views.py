@@ -121,7 +121,8 @@ def post_delete(request, **kwargs):
 def user_posts(request, *args, **kwargs):
     user = User.objects.get(id=int(kwargs["pk"]))
     posts = Post.objects.filter(author=user)
-    context = {"user": user, "posts": posts}
+    logged_in = request.user
+    context = {"user": user, "posts": posts, "logged_in": logged_in}
     return render(request, "blog/user_posts_list.html", context)
 
 
@@ -144,6 +145,7 @@ def post_like(request, **kwargs):
     return redirect("blog-home")
 
 
+@login_required
 def personalised_feed(request, **kwargs):
     user = User.objects.get(id=kwargs["pk"])
 
@@ -158,6 +160,7 @@ def personalised_feed(request, **kwargs):
     return render(request, "blog/personalised_feed.html", context)
 
 
+@login_required
 def following_list(request):
     user = User.objects.get(id=request.user.id)
     followed_by = user.geek.follow.all()

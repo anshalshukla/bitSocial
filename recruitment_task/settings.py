@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "l!%9humy547#m49&(x&m48w5o&bzb=ggbv=t1nl3ff_9uv&a1="
+SECRET_KEY = keyconfig.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -85,9 +85,9 @@ WSGI_APPLICATION = "recruitment_task.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "blog_data",
-        "USER": "root",
-        "PASSWORD": "Anshal@2000",
+        "NAME": keyconfig.DB_NAME,
+        "USER": keyconfig.DB_USER,
+        "PASSWORD": keyconfig.DB_PASSWORD,
     }
 }
 
@@ -145,15 +145,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 SITE_ID = 1
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = keyconfig.EMAIL_BACKEND
 
-EMAIL_HOST = "smtp.sendgrid.net"
-EMAIL_HOST_USER = "apikey"
-EMAIL_HOST_PASSWORD = (
-    "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"
-)
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_HOST = keyconfig.EMAIL_HOST
+EMAIL_HOST_USER = keyconfig.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = keyconfig.EMAIL_HOST_PASSWORD
+EMAIL_PORT = keyconfig.EMAIL_PORT
+EMAIL_USE_TLS = keyconfig.EMAIL_USE_TLS
 
-DEFAULT_FROM_EMAIL = "shukla.anshal85@gmail.com"
-ACCOUNT_EMAIL_SUBJECT_PREFIX = "This is a automatically generated email."
+DEFAULT_FROM_EMAIL = keyconfig.DEFAULT_FROM_EMAIL
+ACCOUNT_EMAIL_SUBJECT_PREFIX = keyconfig.ACCOUNT_EMAIL_SUBJECT_PREFIX
+
