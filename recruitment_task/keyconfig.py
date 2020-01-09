@@ -11,3 +11,7 @@ EMAIL_HOST_USER = "apikey"
 EMAIL_HOST_PASSWORD = (
     "SG.kI_fLWSqS4ShxfMiu9CMxA.HXILVHuwkKC4pB1evHh05IHpi1YIHpi1Yv0xx2s2vF4DJtHuQ"
 )
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = (
+    "640757555562-e79eq6482g5okcmvgbg0cd38gmdbeng8.apps.googleusercontent.com"
+)
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "zx_0OpegIfgXOwjTf2Bt33_o"
