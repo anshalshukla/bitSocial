@@ -6,10 +6,10 @@
         <img class="mt-2" width=10% src="{{user.profile.image.url}}">
     </div>
     <div class="article-metadata">
-        <a class="mr-2">{{ user.username }}</a><br>
-        <a class="mr-2">{{user.email}}</a><br>
-        {% if user not in logged_in %}
-        {% if user in request.user.geek.follow.all %}
+        <a class="mr-2">{{ blogger.username }}</a><br>
+        <a class="mr-2">{{ blogger.email }}</a><br>
+        {% if request.user.username != blogger.username %}
+        {% if blogger in request.user.geek.follow.all %}
         <form method="POST">
             {% csrf_token %}
             <a class="btn btn-outline-secondary" href="{% url 'follow-user' user.id %}">Unfollow</a>
@@ -28,9 +28,6 @@
 <div class="article-metadata">
     <small class="text-muted">Date Posted - {{ post.date_posted |date:"F d, Y"}}</small>
     <br>
-    {% if post.date_posted != post.date_updated %}
-    <small class="text-muted">Date Updated - {{ post.date_updated |date:"F d, Y"}}</small>
-    {% endif %}
 </div>
 <h2><a class="article-title" href="{% url 'post-detail' post.pk %}">{{ post.title }}</a></h2>
 <p class="article-content">{{ post.content }}</p>

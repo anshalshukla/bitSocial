@@ -28,4 +28,3 @@ class post_comment_form(forms.Form):
     class Meta:
         model = Comment
         feilds = ["comment"]
-

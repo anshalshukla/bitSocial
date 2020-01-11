@@ -56,7 +56,7 @@ def post_create(request):
                         contact_message,
                         from_email,
                         to_email,
-                        fail_silently=False,
+                        fail_silently=True,
                     )
 
         return redirect("blog-home")
@@ -121,8 +121,8 @@ def post_delete(request, **kwargs):
 def user_posts(request, *args, **kwargs):
     user = User.objects.get(id=int(kwargs["pk"]))
     posts = Post.objects.filter(author=user)
-    logged_in = request.user
-    context = {"user": user, "posts": posts, "logged_in": logged_in}
+    logged_in_user = request.user
+    context = {"user": logged_in_user, "posts": posts, "blogger": user}
     return render(request, "blog/user_posts_list.html", context)
 
 

@@ -19,7 +19,7 @@
 <hr>
 {% for post in posts%}
 <article class=" media content-section">
-    <img width=10% src="{{post.author.profile.image.url}}">
+    <img width=60 height=60 src="{{post.author.profile.image.url}}">
     <div class="media-body">
 
         <div class="article-metadata">
@@ -29,7 +29,11 @@
         </div>
         <form method="POST">
             {% csrf_token %}
-            <a class="btn btn-outline-secondary" href="{% url 'post-like' post.id %}">Digg</a>
+            {% if request.user in post.liked_by.all %}
+            <a class="btn btn-outline-secondary" href="{% url 'post-like' post.id %}">Unlike</a>
+            {% else %}
+            <a class="btn btn-outline-secondary" href="{% url 'post-like' post.id %}">like</a>
+            {% endif %}
         </form>
         <small class="text-muted">{{post.liked_by.count}} diggs</small>
         <h2><a class="article-title" href="{% url 'post-detail' post.pk %}">{{ post.title }}</a></h2>

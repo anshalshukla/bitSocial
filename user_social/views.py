@@ -15,4 +15,4 @@ def follow_user(request, **kwargs):
     else:
         logged_in.geek.follow.remove(follow_to)
         messages.info(request, f"Your have unfollowed {follow_to}")
-    return redirect("blog-home")
+    return redirect("all-users")
