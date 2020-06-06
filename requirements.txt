@@ -8,7 +8,7 @@ chardet==3.0.4
 configparser==3.5.0b2
 cryptography==2.3
 cycler==0.10.0
-Django==1.11.27
+Django==1.11.29
 django-oauth==1.1
 entrypoints==0.3
 enum34==1.1.6
