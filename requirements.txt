@@ -84,7 +84,7 @@ pbr==5.4.5
 pexpect==4.8.0
 pickleshare==0.7.5
 pika==1.1.0
-Pillow==7.1.2
+Pillow==8.1.1
 pipenv==2018.11.26
 powerline-status==2.7
 prometheus-client==0.7.1
