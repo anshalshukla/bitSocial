@@ -64,7 +64,7 @@ lazr.uri==1.0.3
 lazy-object-proxy==1.4.3
 libvirt-python==5.0.0
 louis==3.10.0
-lxml==4.5.0
+lxml==4.9.1
 macaroonbakery==1.2.3
 MarkupSafe==1.1.1
 mccabe==0.6.1
